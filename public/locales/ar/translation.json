@@ -24,5 +24,15 @@
   "next": "التالي",
   "submit": "إرسال",
   "back": "السابق",
-  "helpMeWrite": "ساعدني في الكتابة"
+  "helpMeWrite": "ساعدني في الكتابة",
+  "edit": "تعديل",
+  "accept": "قبول",
+  "discard": "تجاهل",
+  "close": "إغلاق",
+  "submissionError": "خطأ في الإرسال",
+  "applicationStatus": "حالة الطلب",
+  "formSubmittedSuccessfully": "تم إرسال النموذج بنجاح!",
+  "startNewApplication": "بدء طلب جديد",
+  "ok": "حسناً",
+  "processingRequest": "جارٍ معالجة طلبك..."
 }

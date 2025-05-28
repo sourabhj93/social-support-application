@@ -1,6 +1,7 @@
 import { useState } from "react";
 import CustomTextArea from "../common/CustomTextArea";
 import { Modal } from "../common/Modal";
+import { useTranslation } from "react-i18next";
 
 interface SuggestionModalProps {
   suggestion: string;
@@ -17,6 +18,7 @@ export const SuggestionModal: React.FC<SuggestionModalProps> = ({
   onApply,
   onChange,
 }) => {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const title = error ? "Error" : "AI Suggested Text";
   const body = error ? (
@@ -30,7 +32,7 @@ export const SuggestionModal: React.FC<SuggestionModalProps> = ({
   );
   const footer = error ? (
     <button onClick={onClose} className="btn text-sm mt-4">
-      Close
+      {t("close")}
     </button>
   ) : (
     <>
@@ -39,13 +41,13 @@ export const SuggestionModal: React.FC<SuggestionModalProps> = ({
         disabled={isEditing}
         className="btn !bg-emerald-500 w-full sm:w-auto"
       >
-        Edit
+        {t("edit")}
       </button>
       <button onClick={onApply} className="btn w-full sm:w-auto">
-        Accept
+        {t("accept")}
       </button>
       <button onClick={onClose} className="btn-secondary w-full sm:w-auto">
-        Discard
+        {t("discard")}
       </button>
     </>
   );

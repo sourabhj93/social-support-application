@@ -24,5 +24,15 @@
   "next": "Next",
   "submit": "Submit",
   "back": "Back",
-  "helpMeWrite": "Help me write"
+  "helpMeWrite": "Help me write",
+  "edit": "Edit",
+  "accept": "Accept",
+  "discard": "Discard",
+  "close": "Close",
+  "submissionError": "Submission Error",
+  "applicationStatus": "Application Status",
+  "formSubmittedSuccessfully": "Form submitted successfully!",
+  "startNewApplication": "Start New Application",
+  "ok": "Ok",
+  "processingRequest": "Processing your request..."
 }

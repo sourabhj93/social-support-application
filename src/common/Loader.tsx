@@ -1,6 +1,9 @@
+import { useTranslation } from "react-i18next";
+
 export const Loader: React.FC<{ message?: string }> = ({
-  message = "Processing your request...",
+  message = "processingRequest",
 }) => {
+  const { t } = useTranslation();
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
       <div className="bg-white px-6 py-4 rounded-lg shadow-md flex items-center space-x-3">
@@ -24,7 +27,7 @@ export const Loader: React.FC<{ message?: string }> = ({
             d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
           />
         </svg>
-        <span className="text-gray-700 font-medium">{message}</span>
+        <span className="text-gray-700 font-medium">{t(message)}</span>
       </div>
     </div>
   );

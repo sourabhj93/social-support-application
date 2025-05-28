@@ -191,7 +191,7 @@ export default function Situation() {
       {submitError && (
         <Modal
           onClose={closeModal}
-          title="Submission Error"
+          title={t("submissionError")}
           body={
             <div className="text-red-500 my-2 text-lg font-semibold">
               {submitError}
@@ -203,7 +203,7 @@ export default function Situation() {
               className="btn mt-2"
               aria-label="Close error message"
             >
-              ok
+              {t("ok")}
             </button>
           }
         ></Modal>
@@ -211,10 +211,10 @@ export default function Situation() {
       {submitSuccess && (
         <Modal
           onClose={closeModal}
-          title="Application Status"
+          title={t("applicationStatus")}
           body={
             <div className="text-green-500 my-2 text-lg font-semibold text-center">
-              Form submitted successfully!
+              {t("formSubmittedSuccessfully")}
             </div>
           }
           footer={
@@ -223,7 +223,7 @@ export default function Situation() {
               className="btn mt-2"
               aria-label="Start new application"
             >
-              Start New Application
+              {t("startNewApplication")}
             </button>
           }
           classes="justify-center"
