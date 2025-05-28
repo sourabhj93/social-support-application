@@ -9,7 +9,7 @@ export const routes: RouteObject[] = [
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "start-application", element: <LandingPage /> },
+      { path: "/form/:step", element: <LandingPage /> },
     ],
   },
 ];

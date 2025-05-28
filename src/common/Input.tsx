@@ -21,8 +21,8 @@ export function Field({
 }: FieldProps) {
   const { t } = useTranslation();
   return (
-    <div className="w-full px-2 sm:px-0">
-      <label className="block text-sm font-semibold text-gray-700 mb-1">
+    <div className="w-full px-2">
+      <label className="block text-sm font-bold text-gray-700 mb-1">
         {t(name)}
       </label>
 

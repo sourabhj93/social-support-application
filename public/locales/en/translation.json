@@ -39,5 +39,6 @@
   "male": "Male",
   "female": "Female",
   "other": "Other",
-  "home": "Home"
+  "home": "Home",
+  "appDescription": "<strong>Social Support App</strong> is designed to assist individuals and families in accessing financial assistance and essential social services. It simplifies the application process with step-by-step guidance through eligibility checks, form submissions, and documentation. The app is thoughtfully built to be accessible for people with disabilities, ensuring an inclusive experience for all users. Whether it's help with income support, housing subsidies, or emergency relief, the app empowers everyone to find and apply for the financial aid they need—quickly, securely, and with confidence."
 }

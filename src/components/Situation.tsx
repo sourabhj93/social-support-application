@@ -60,12 +60,6 @@ const fetchSuggestionFromGPT = async (prompt: string): Promise<any> => {
   }
 };
 
-// Mocked GPT function for local testing as API's are not avaliable for free
-const mockGPT = (prompt: string): Promise<string> =>
-  new Promise((res) =>
-    setTimeout(() => res(`${prompt} (suggested by AI)`), 1000)
-  );
-
 export default function Situation() {
   const { t } = useTranslation();
   const { formData, updateSection, resetForm, prevStep } = useFormContext();
@@ -185,17 +179,7 @@ export default function Situation() {
           </div>
         ))}
 
-        <div className="sm:flex justify-between mt-8">
-          <div>
-            <button
-              type="button"
-              onClick={prevStep}
-              className="btn-secondary w-full"
-              aria-label="Go to previous step"
-            >
-              {t("back")}
-            </button>
-          </div>
+        <div className="sm:flex justify-end mt-8">
           <button
             className={`w-full sm:w-auto mt-4 sm:mt-0 ${
               isValid && !submitLoading ? "btn" : "btn-disabled"

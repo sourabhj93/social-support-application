@@ -5,9 +5,11 @@ import {
   useState,
   useEffect,
 } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+
+const stepRoutes = ["personalInfo", "familyFinance", "situation"];
 
 interface FormData {
-  step: number;
   personal: Record<string, any>;
   family: Record<string, any>;
   situation: Record<string, any>;
@@ -19,6 +21,8 @@ interface FormContextType {
   resetForm: VoidFunction;
   nextStep: () => void;
   prevStep: () => void;
+  currentStepKey: string;
+  currentStepIndex: number;
 }
 
 const FormContext = createContext<FormContextType | undefined>(undefined);
@@ -31,7 +35,6 @@ export const useFormContext = () => {
 };
 
 const defaultData: FormData = {
-  step: 1,
   personal: {},
   family: {},
   situation: {},
@@ -43,12 +46,18 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
     return stored ? JSON.parse(stored) : defaultData;
   });
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const currentStepKey = location.pathname.split("/").pop() || "personalInfo";
+  const currentStepIndex = stepRoutes.indexOf(currentStepKey);
+
   useEffect(() => {
     localStorage.setItem("socialFormData", JSON.stringify(formData));
   }, [formData]);
 
   const resetForm = () => {
     setFormData(defaultData);
+    navigate(`/form/${stepRoutes[0]}`);
   };
 
   const updateSection = (
@@ -61,14 +70,29 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
     }));
   };
 
-  const nextStep = () =>
-    setFormData((prev) => ({ ...prev, step: prev.step + 1 }));
-  const prevStep = () =>
-    setFormData((prev) => ({ ...prev, step: prev.step - 1 }));
+  const nextStep = () => {
+    if (currentStepIndex < stepRoutes.length - 1) {
+      navigate(`/form/${stepRoutes[currentStepIndex + 1]}`);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStepIndex > 0) {
+      navigate(`/form/${stepRoutes[currentStepIndex - 1]}`);
+    }
+  };
 
   return (
     <FormContext.Provider
-      value={{ formData, updateSection, resetForm, nextStep, prevStep }}
+      value={{
+        formData,
+        updateSection,
+        resetForm,
+        nextStep,
+        prevStep,
+        currentStepKey,
+        currentStepIndex,
+      }}
     >
       {children}
     </FormContext.Provider>

@@ -1,4 +1,3 @@
-// components/NavHeader.tsx
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -47,7 +46,7 @@ export default function NavHeader() {
             {t("home")}
           </Link>
           <Link
-            to="/start-application"
+            to="/form/personalInfo"
             className="text-gray-700 hover:text-blue-600"
           >
             {t("startApplication")}
@@ -78,7 +77,7 @@ export default function NavHeader() {
             {t("home")}
           </Link>
           <Link
-            to="/start-application"
+            to="/form/personalInfo"
             className="text-gray-700 hover:text-blue-600"
             onClick={() => setMenuOpen(false)}
           >

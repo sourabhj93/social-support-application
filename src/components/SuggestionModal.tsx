@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CustomTextArea from "../common/CustomTextArea";
+import CustomTextArea from "./CustomTextArea";
 import { Modal } from "../common/Modal";
 import { useTranslation } from "react-i18next";
 

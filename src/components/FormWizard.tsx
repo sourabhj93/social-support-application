@@ -1,26 +1,40 @@
+import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import FamilyInfo from "./FamilyInfo";
 import PersonalInfo from "./PersonalInfo";
 import Situation from "./Situation";
-import { useFormContext } from "../context/ApplicationFormContext";
+import BackButton from "./BackButton";
 
 export const steps = ["personalInfo", "familyFinance", "situation"];
 
+const stepComponents: any = {
+  personalInfo: <PersonalInfo />,
+  familyFinance: <FamilyInfo />,
+  situation: <Situation />,
+};
+
 export default function FormWizard() {
   const { t } = useTranslation();
-  const { formData } = useFormContext();
-  const { step } = formData;
+  const { step = "" } = useParams();
+  const navigate = useNavigate();
+
+  const currentStepIndex = steps.indexOf(step);
+  const currentComponent = stepComponents[step] || <div>Step not found</div>;
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 mt-6">
       <div className="flex justify-between items-center mb-3 md:mb-6 sm:ms-36 ms-16">
         {steps.map((label, index) => {
           const stepNumber = index + 1;
-          const isActive = stepNumber === step;
-          const isCompleted = stepNumber < step;
+          const isActive = index === currentStepIndex;
+          const isCompleted = index < currentStepIndex;
 
           return (
-            <div key={label} className="flex-1 flex items-center">
+            <div
+              key={label}
+              className="flex-1 flex items-center cursor-pointer"
+              onClick={() => navigate(`/form/${label}`)}
+            >
               <div className="flex flex-col items-center">
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
@@ -52,13 +66,14 @@ export default function FormWizard() {
         })}
       </div>
 
-      {/* Step Content */}
-      <div className="ms-4 mb-6 text-xl font-bold text-blue-600 block md:hidden text-center">
-        {t(steps[step - 1])}
+      {/* Mobile title */}
+      <div className="ms-4 mb-4 text-xl font-bold text-blue-600 block md:hidden text-center">
+        {t(step)}
       </div>
-      {step === 1 && <PersonalInfo />}
-      {step === 2 && <FamilyInfo />}
-      {step === 3 && <Situation />}
+      {step !== steps[0] && <BackButton />}
+
+      {/* Render Step */}
+      {currentComponent}
     </div>
   );
 }

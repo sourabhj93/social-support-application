@@ -95,17 +95,7 @@ export default function FinancialInfoForm() {
         />
       </div>
 
-      <div className="sm:flex justify-between mt-6">
-        <div>
-          <button
-            type="button"
-            onClick={prevStep}
-            className="btn-secondary w-full"
-            aria-label="Go to previous step"
-          >
-            {t("back")}
-          </button>
-        </div>
+      <div className="sm:flex justify-end mt-6">
         <button
           className={`w-full sm:w-auto mt-4 sm:mt-0 ${
             isValid ? "btn" : "btn-disabled"

@@ -2,14 +2,10 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useFormContext } from "../context/ApplicationFormContext";
 import { useTranslation } from "react-i18next";
-import { Controller, Control, FieldErrors } from "react-hook-form";
-import { Select, Input } from "antd";
 import { SelectField } from "../common/Select";
 import { Field } from "../common/Input";
+import { FieldDatePicker } from "../common/DatePicker";
 
-// ---------------------------
-// Interfaces & Constants
-// ---------------------------
 interface PersonalFormData {
   name: string;
   nationalId: string;
@@ -50,24 +46,22 @@ const validations = {
   },
 };
 
-// ---------------------------
-// Main Form Component
-// ---------------------------
 export default function PersonalInfo() {
   const { t } = useTranslation();
   const { formData, updateSection, nextStep } = useFormContext();
 
   const {
-    register,
     handleSubmit,
     formState: { isValid, errors },
     watch,
     setValue,
+    getValues,
     control,
   } = useForm<PersonalFormData>({
     defaultValues: formData.personal,
     mode: "onChange",
   });
+
 
   const selectedCountry = watch("country");
   const selectedState = watch("state");
@@ -112,14 +106,8 @@ export default function PersonalInfo() {
           errors={errors}
           pattern={validations.nationalId}
         />
-        
-        <Field
-          name="dob"
-          placeholder="DOB"
-          type="date"
-          control={control}
-          errors={errors}
-        />
+
+        <FieldDatePicker name="dob" control={control} errors={errors} />
 
         {/* Gender */}
         <SelectField
@@ -193,44 +181,3 @@ export default function PersonalInfo() {
     </form>
   );
 }
-
-// ---------------------------
-// Reusable Input Field
-// ---------------------------
-// function Field({
-//   name,
-//   placeholder,
-//   type = "text",
-//   register,
-//   errors,
-//   pattern,
-// }: {
-//   name: keyof PersonalFormData;
-//   placeholder: string;
-//   type?: string;
-//   register: UseFormRegister<PersonalFormData>;
-//   errors: Partial<Record<keyof PersonalFormData, { message?: string }>>;
-//   pattern?: { value: RegExp; message: string };
-// }) {
-//   return (
-//     <div>
-//       <label className="text-md font-medium mb-1 ms-2">{placeholder}</label>
-//       <input
-//         {...register(name, {
-//           required: `${placeholder} is required`,
-//           pattern,
-//         })}
-//         type={type}
-//         placeholder={placeholder}
-//         className="input mt-1"
-//       />
-//       {errors[name]?.message && (
-//         <p className="text-red-500 text-sm mt-1">{errors[name]?.message}</p>
-//       )}
-//     </div>
-//   );
-// }
-
-// ---------------------------
-// Reusable Select Field
-// ---------------------------

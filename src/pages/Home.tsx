@@ -1,30 +1,24 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import FormWizard from "../components/FormWizard";
-import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { FormProvider } from "../context/ApplicationFormContext";
-import NavHeader from "../components/NavHeader";
 
 export default function Home() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
-  }, [i18n.language]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    i18n.changeLanguage(e.target.value);
-  };
 
   return (
     <div>
-      <button
-        onClick={() => navigate("/start-application")}
-        className="btn text-blue-600 mt-6"
-      >
-        {t("startApplication")}
-      </button>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+        <p
+          className="text-center max-w-2xl text-lg text-gray-700"
+          dangerouslySetInnerHTML={{ __html: t("appDescription") }}
+        />
+        <button
+          onClick={() => navigate("/form/personalInfo")}
+          className="btn text-blue-600 mt-6"
+        >
+          {t("startApplication")}
+        </button>
+      </div>
     </div>
   );
 }
