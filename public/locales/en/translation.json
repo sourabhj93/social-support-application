@@ -1,5 +1,6 @@
 {
-  "title": "Social Support Application!",
+  "startApplication": "Start Application",
+  "title": "Social Support App!",
   "name": "Name",
   "nationalId": "National ID",
   "dob": "DOB",
@@ -31,8 +32,12 @@
   "close": "Close",
   "submissionError": "Submission Error",
   "applicationStatus": "Application Status",
-  "formSubmittedSuccessfully": "Form submitted successfully!",
+  "formSubmittedSuccessfully": "Congratulations! Your application has been submitted successfully. Your application number is {{applicationNumber}}.",
   "startNewApplication": "Start New Application",
   "ok": "Ok",
-  "processingRequest": "Processing your request..."
+  "processingRequest": "Processing your request...",
+  "male": "Male",
+  "female": "Female",
+  "other": "Other",
+  "home": "Home"
 }

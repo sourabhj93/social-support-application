@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
-import { useFormContext } from "../context/FormContext";
 import { useTranslation } from "react-i18next";
+import { useFormContext } from "../context/ApplicationFormContext";
+import { SelectField } from "../common/Select";
+import { Field } from "../common/Input";
 
-interface FamilyFormData {
+interface FinancialFormData {
   maritalStatus: string;
   dependents: string;
   employmentStatus: string;
@@ -10,76 +12,110 @@ interface FamilyFormData {
   housingStatus: string;
 }
 
-const fields = [
-  { name: "maritalStatus", placeholder: "Marital Status" },
-  { name: "dependents", placeholder: "Dependents" },
-  { name: "employmentStatus", placeholder: "Employment Status" },
-  { name: "monthlyIncome", placeholder: "Monthly Income" },
-  { name: "housingStatus", placeholder: "Housing Status" },
-];
+const options = {
+  maritalStatus: ["Single", "Married", "Divorced"],
+  dependents: ["Yes", "No"],
+  employmentStatus: [
+    "Employed",
+    "Self-Employed",
+    "Unemployed",
+    "Student",
+    "Retired",
+  ],
+  housingStatus: ["Owned", "Rented", "Mortgaged", "Company Provided"],
+};
 
-export default function FamilyInfo() {
+export default function FinancialInfoForm() {
   const { t } = useTranslation();
   const { formData, updateSection, nextStep, prevStep } = useFormContext();
   const {
     register,
     handleSubmit,
-    formState: { isValid },
-  } = useForm<FamilyFormData>({
+    control,
+    formState: { errors, isValid },
+  } = useForm<FinancialFormData>({
     defaultValues: formData.family,
+    mode: "onChange",
   });
 
-  const onSubmit = (data: FamilyFormData) => {
+  const onSubmit = (data: FinancialFormData) => {
     updateSection("family", data);
     nextStep();
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid sm:grid-cols-2 gap-y-4 gap-x-6">
-          {fields.map(({ name, placeholder }) => (
-            <div key={name}>
-              <label
-                id={`${name}-label`}
-                className="text-md font-medium mb-1 ms-2"
-              >
-                {t(name)}
-              </label>
-              <input
-                key={name}
-                {...register(name as keyof FamilyFormData, {
-                  required: `${placeholder} is required`,
-                })}
-                placeholder={placeholder}
-                className="input mt-1"
-                aria-labelledby={`${name}-label`}
-              />
-            </div>
-          ))}
-        </div>
-        <div className="sm:flex justify-between mt-6">
-          <div>
-            <button
-              type="button"
-              onClick={prevStep}
-              className="btn-secondary w-full"
-              aria-label="Go to previous step"
-            >
-              {t("back")}
-            </button>
-          </div>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="grid sm:grid-cols-2 gap-y-4 gap-x-6">
+        {/* Marital Status */}
+        <SelectField
+          label="Marital Status"
+          name="maritalStatus"
+          options={options.maritalStatus}
+          control={control}
+          errors={errors}
+        />
+
+        {/* Dependents */}
+        <SelectField
+          label="Dependents"
+          name="dependents"
+          options={options.dependents}
+          control={control}
+          errors={errors}
+        />
+
+        {/* Employment Status */}
+        <SelectField
+          label="Employment Status"
+          name="employmentStatus"
+          options={options.employmentStatus}
+          control={control}
+          errors={errors}
+        />
+
+        {/* Monthly Income */}
+        <Field
+          name="monthlyIncome"
+          placeholder="Enter monthly income"
+          control={control}
+          errors={errors}
+          pattern={{
+            value: /^\d+(\.\d{1,2})?$/,
+            message: "Enter a valid amount (up to 2 decimal places)",
+          }}
+        />
+
+        {/* Housing Status */}
+        <SelectField
+          label="Housing Status"
+          name="housingStatus"
+          options={options.housingStatus}
+          control={control}
+          errors={errors}
+        />
+      </div>
+
+      <div className="sm:flex justify-between mt-6">
+        <div>
           <button
-            className={`w-full sm:w-auto mt-4 sm:mt-0 ${
-              isValid ? "btn" : "btn-disabled"
-            }`}
-            disabled={!isValid}
-            aria-label="Go to next step"
+            type="button"
+            onClick={prevStep}
+            className="btn-secondary w-full"
+            aria-label="Go to previous step"
           >
-            {t("next")}
+            {t("back")}
           </button>
         </div>
-      </form>
-    </>
+        <button
+          className={`w-full sm:w-auto mt-4 sm:mt-0 ${
+            isValid ? "btn" : "btn-disabled"
+          }`}
+          disabled={!isValid}
+          aria-label="Go to next step"
+        >
+          {t("next")}
+        </button>
+      </div>
+    </form>
   );
 }

@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { useFormContext } from "../context/FormContext";
 import FamilyInfo from "./FamilyInfo";
 import PersonalInfo from "./PersonalInfo";
 import Situation from "./Situation";
+import { useFormContext } from "../context/ApplicationFormContext";
 
 export const steps = ["personalInfo", "familyFinance", "situation"];
 
@@ -12,7 +12,7 @@ export default function FormWizard() {
   const { step } = formData;
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4">
+    <div className="w-full max-w-4xl mx-auto px-4 mt-6">
       <div className="flex justify-between items-center mb-3 md:mb-6 sm:ms-36 ms-16">
         {steps.map((label, index) => {
           const stepNumber = index + 1;

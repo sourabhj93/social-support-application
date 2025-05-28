@@ -1,4 +1,5 @@
 {
+  "startApplication": "ابدأ التطبيق",
   "title": "تطبيق الدعم الاجتماعي!",
   "name": "الاسم",
   "nationalId": "الرقم القومي",
@@ -31,8 +32,9 @@
   "close": "إغلاق",
   "submissionError": "خطأ في الإرسال",
   "applicationStatus": "حالة الطلب",
-  "formSubmittedSuccessfully": "تم إرسال النموذج بنجاح!",
+  "formSubmittedSuccessfully": "تهانينا! تم تقديم طلبك بنجاح. رقم طلبك هو {{applicationNumber}}.",
   "startNewApplication": "بدء طلب جديد",
   "ok": "حسناً",
-  "processingRequest": "جارٍ معالجة طلبك..."
+  "processingRequest": "جارٍ معالجة طلبك...",
+  "home": "الصفحة الرئيسية"
 }

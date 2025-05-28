@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { useFormContext } from "../context/FormContext";
+import { useFormContext } from "../context/ApplicationFormContext";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SuggestionModal } from "./SuggestionModal";
@@ -14,12 +14,21 @@ interface SituationFormData {
 }
 
 const fields = [
-  { name: "financialSituation", placeholder: "Financial Situation" },
+  {
+    name: "financialSituation",
+    placeholder:
+      "If you are currently facing financial challenges and need assistance, please let us know.",
+  },
   {
     name: "employmentCircumstances",
-    placeholder: "Employment Circumstances",
+    placeholder:
+      "If your current employment status has changed or is unstable, please inform us so we can assist you accordingly.",
   },
-  { name: "reasonForApplying", placeholder: "Reason For Applying" },
+  {
+    name: "reasonForApplying",
+    placeholder:
+      "Please tell us why you are seeking assistance so we can better support your needs.",
+  },
 ];
 
 const fetchSuggestionFromGPT = async (prompt: string): Promise<any> => {
@@ -135,6 +144,12 @@ export default function Situation() {
     }
   };
 
+  function getRandomInt(min: number, max: number): number {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -150,6 +165,7 @@ export default function Situation() {
               {...register(name as keyof SituationFormData, {
                 required: `${placeholder} is required`,
               })}
+              placeholder={placeholder}
               className="input h-24 mt-1 w-full"
               aria-labelledby={`${name}-label`}
             />
@@ -157,7 +173,11 @@ export default function Situation() {
               type="button"
               onClick={() => getSuggestion(name as keyof SituationFormData)}
               className="btn !bg-cyan-600 text-md"
-              disabled={loadingField === name}
+              disabled={
+                loadingField === name
+                // ||
+                // getValues(name as keyof SituationFormData).length === 0
+              }
               aria-label="Get suggestion for this field"
             >
               {loadingField === name ? "Loading..." : t("helpMeWrite")}
@@ -214,7 +234,9 @@ export default function Situation() {
           title={t("applicationStatus")}
           body={
             <div className="text-green-500 my-2 text-lg font-semibold text-center">
-              {t("formSubmittedSuccessfully")}
+              {t("formSubmittedSuccessfully", {
+                applicationNumber: getRandomInt(1000, 9999),
+              })}
             </div>
           }
           footer={
