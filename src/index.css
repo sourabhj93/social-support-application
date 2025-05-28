@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.input {
+  @apply w-full p-2 border rounded mb-2;
+}
+
+.btn {
+  @apply px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 w-full sm:w-auto;
+}
+
+.btn-secondary {
+  @apply px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400 w-full sm:w-auto;
+}
+
+button:disabled {
+  @apply opacity-50 cursor-not-allowed bg-gray-200 text-gray-700 px-4 py-2 w-full sm:w-auto !important;
+}
