@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -23,7 +23,11 @@ export default function NavHeader() {
             className="md:hidden"
             onClick={() => setMenuOpen((prev) => !prev)}
           >
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+            {menuOpen ? (
+              <CloseOutlined size={24} />
+            ) : (
+              <MenuOutlined size={24} />
+            )}
           </button>
           <h1 className="text-xl font-bold text-gray-800">{t("title")}</h1>
           <div className="w-40 md:hidden">

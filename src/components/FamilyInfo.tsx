@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useFormContext } from "../context/ApplicationFormContext";
 import { SelectField } from "../common/Select";
 import { Field } from "../common/Input";
+import { familyFormFIelds } from "../constants/formConstant";
 
 interface FinancialFormData {
   maritalStatus: string;
@@ -12,24 +13,10 @@ interface FinancialFormData {
   housingStatus: string;
 }
 
-const options = {
-  maritalStatus: ["Single", "Married", "Divorced"],
-  dependents: ["Yes", "No"],
-  employmentStatus: [
-    "Employed",
-    "Self-Employed",
-    "Unemployed",
-    "Student",
-    "Retired",
-  ],
-  housingStatus: ["Owned", "Rented", "Mortgaged", "Company Provided"],
-};
-
 export default function FinancialInfoForm() {
   const { t } = useTranslation();
   const { formData, updateSection, nextStep, prevStep } = useFormContext();
   const {
-    register,
     handleSubmit,
     control,
     formState: { errors, isValid },
@@ -43,56 +30,42 @@ export default function FinancialInfoForm() {
     nextStep();
   };
 
+  const renderField = ({
+    label,
+    name,
+    options,
+    type,
+    placeholder,
+    pattern,
+  }: any) => {
+    if (type === "select") {
+      return (
+        <SelectField
+          key={name}
+          label={label}
+          name={name}
+          options={options}
+          control={control}
+          errors={errors}
+        />
+      );
+    }
+    return (
+      <Field
+        key={name}
+        name={name}
+        placeholder={placeholder}
+        control={control}
+        errors={errors}
+        pattern={pattern}
+      />
+    );
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid sm:grid-cols-2 gap-y-4 gap-x-6">
-        {/* Marital Status */}
-        <SelectField
-          label="Marital Status"
-          name="maritalStatus"
-          options={options.maritalStatus}
-          control={control}
-          errors={errors}
-        />
-
-        {/* Dependents */}
-        <SelectField
-          label="Dependents"
-          name="dependents"
-          options={options.dependents}
-          control={control}
-          errors={errors}
-        />
-
-        {/* Employment Status */}
-        <SelectField
-          label="Employment Status"
-          name="employmentStatus"
-          options={options.employmentStatus}
-          control={control}
-          errors={errors}
-        />
-
-        {/* Monthly Income */}
-        <Field
-          name="monthlyIncome"
-          placeholder="Enter monthly income"
-          control={control}
-          errors={errors}
-          pattern={{
-            value: /^\d+(\.\d{1,2})?$/,
-            message: "Enter a valid amount (up to 2 decimal places)",
-          }}
-        />
-
-        {/* Housing Status */}
-        <SelectField
-          label="Housing Status"
-          name="housingStatus"
-          options={options.housingStatus}
-          control={control}
-          errors={errors}
-        />
+        {familyFormFIelds?.map((field) => renderField(field))}
       </div>
 
       <div className="sm:flex justify-end mt-6">

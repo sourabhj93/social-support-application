@@ -62,7 +62,7 @@ const fetchSuggestionFromGPT = async (prompt: string): Promise<any> => {
 
 export default function Situation() {
   const { t } = useTranslation();
-  const { formData, updateSection, resetForm, prevStep } = useFormContext();
+  const { formData, updateSection, resetForm } = useFormContext();
   const {
     register,
     handleSubmit,

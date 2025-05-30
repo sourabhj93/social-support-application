@@ -55,13 +55,11 @@ export default function PersonalInfo() {
     formState: { isValid, errors },
     watch,
     setValue,
-    getValues,
     control,
   } = useForm<PersonalFormData>({
     defaultValues: formData.personal,
     mode: "onChange",
   });
-
 
   const selectedCountry = watch("country");
   const selectedState = watch("state");
@@ -76,12 +74,16 @@ export default function PersonalInfo() {
       : [];
 
   useEffect(() => {
-    setValue("state", "");
-    setValue("city", "");
+    if (selectedCountry !== formData.personal.country) {
+      setValue("state", "");
+      setValue("city", "");
+    }
   }, [selectedCountry, setValue]);
 
   useEffect(() => {
-    setValue("city", "");
+    if (selectedCountry !== formData.personal.country) {
+      setValue("city", "");
+    }
   }, [selectedState, setValue]);
 
   const onSubmit = (data: PersonalFormData) => {
@@ -89,84 +91,123 @@ export default function PersonalInfo() {
     nextStep();
   };
 
+  const formFields = [
+    {
+      label: "Name",
+      name: "name",
+      placeholder: "Enter your name",
+      type: "text",
+    },
+    {
+      label: "National ID",
+      name: "nationalId",
+      placeholder: "Enter your National ID",
+      type: "text",
+      pattern: validations.nationalId,
+    },
+    {
+      label: "Date of Birth",
+      name: "dob",
+      placeholder: "Select your date of birth",
+      type: "date",
+    },
+    {
+      label: "Gender",
+      name: "gender",
+      type: "select",
+      options: ["male", "female", "other"],
+    },
+    {
+      label: "Country",
+      name: "country",
+      type: "select",
+      options: countries,
+    },
+    {
+      label: "State",
+      name: "state",
+      type: "select",
+      options: states,
+      disabled: !selectedCountry,
+    },
+    {
+      label: "City",
+      name: "city",
+      type: "select",
+      options: cities,
+      disabled: !selectedState,
+    },
+    {
+      label: "Address",
+      name: "address",
+      placeholder: "Enter your address",
+      type: "text",
+    },
+    {
+      label: "Phone",
+      name: "phone",
+      placeholder: "Enter your phone number",
+      type: "text",
+      pattern: validations.phone,
+    },
+    {
+      label: "Email",
+      name: "email",
+      placeholder: "Enter your email",
+      type: "email",
+      pattern: validations.email,
+    },
+  ];
+
+  const renderField = ({
+    label,
+    name,
+    options,
+    type,
+    placeholder,
+    pattern,
+    disabled,
+  }: any) => {
+    if (type === "select") {
+      return (
+        <SelectField
+          key={name}
+          label={label}
+          name={name}
+          options={options || []}
+          disabled={disabled || false}
+          control={control}
+          errors={errors}
+        />
+      );
+    } else if (type === "date") {
+      return (
+        <FieldDatePicker
+          key={name}
+          name={name}
+          control={control}
+          errors={errors}
+        />
+      );
+    } else {
+      return (
+        <Field
+          key={name}
+          name={name}
+          type={type}
+          pattern={pattern}
+          control={control}
+          placeholder={placeholder ?? ""}
+          errors={errors}
+        />
+      );
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid sm:grid-cols-2 gap-y-4 gap-x-6">
-        <Field
-          name="name"
-          placeholder="Name"
-          control={control}
-          errors={errors}
-        />
-
-        <Field
-          name="nationalId"
-          placeholder="National ID"
-          control={control}
-          errors={errors}
-          pattern={validations.nationalId}
-        />
-
-        <FieldDatePicker name="dob" control={control} errors={errors} />
-
-        {/* Gender */}
-        <SelectField
-          name="gender"
-          label="Gender"
-          options={["male", "female", "other"]}
-          control={control} // <-- use control instead of register
-          errors={errors}
-        />
-
-        <SelectField
-          name="country"
-          label="Country"
-          options={countries}
-          control={control}
-          errors={errors}
-        />
-
-        <SelectField
-          name="state"
-          label="State"
-          options={states}
-          control={control}
-          errors={errors}
-          disabled={!selectedCountry}
-        />
-
-        <SelectField
-          name="city"
-          label="City"
-          options={cities}
-          control={control}
-          errors={errors}
-          disabled={!selectedState}
-        />
-
-        <Field
-          name="address"
-          placeholder="Address"
-          control={control}
-          errors={errors}
-        />
-
-        <Field
-          name="phone"
-          placeholder="Phone"
-          control={control}
-          errors={errors}
-          pattern={validations.phone}
-        />
-
-        <Field
-          name="email"
-          placeholder="Email"
-          type="email"
-          control={control}
-          errors={errors}
-          pattern={validations.email}
-        />
+        {formFields.map((field) => renderField(field))}
       </div>
 
       <div className="sm:flex justify-end mt-6">

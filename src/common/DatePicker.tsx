@@ -21,18 +21,25 @@ export const FieldDatePicker = ({ name, control }: FieldProps) => {
         name="date"
         control={control}
         rules={{ required: "Date is required" }}
-        render={({ field }) => (
-          <DatePicker
-            {...field}
-            value={field.value ? dayjs(field.value) : null}
-            format="DD-MM-YYYY"
-            disabledDate={(current) =>
-              current && current > dayjs().endOf("day")
-            }
-            style={{ width: "100%" }}
-            className="w-full"
-            onChange={(date: any) => field.onChange(date)}
-          />
+        render={({ field, fieldState }) => (
+          <>
+            <DatePicker
+              {...field}
+              value={field.value ? dayjs(field.value) : null}
+              format="DD-MM-YYYY"
+              disabledDate={(current) =>
+                current && current > dayjs().endOf("day")
+              }
+              style={{ width: "100%" }}
+              className="w-full py-2 text-md"
+              onChange={(date: any) => field.onChange(date)}
+            />
+            {fieldState.error && (
+              <p className="text-red-500 text-sm mt-1">
+                {fieldState.error.message}
+              </p>
+            )}
+          </>
         )}
       />
     </div>

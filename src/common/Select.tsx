@@ -37,7 +37,7 @@ export function SelectField({
           <>
             <Select
               {...field}
-              className="w-full"
+              className="w-full text-md custom-select"
               placeholder={`Select ${label}`}
               disabled={disabled}
               onChange={(value) => field.onChange(value)}
@@ -45,9 +45,8 @@ export function SelectField({
               value={field.value ?? undefined}
               showSearch
               optionFilterProp="children"
-              dropdownMatchSelectWidth={false} // allows better mobile behavior
             >
-              {options.map((opt) => (
+              {options?.map((opt) => (
                 <Option key={opt} value={opt}>
                   {t(opt)}
                 </Option>

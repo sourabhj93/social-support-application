@@ -16,7 +16,6 @@ export function Field({
   placeholder,
   type = "text",
   control,
-  errors,
   pattern,
 }: FieldProps) {
   const { t } = useTranslation();
@@ -39,7 +38,7 @@ export function Field({
               {...field}
               type={type}
               placeholder={placeholder}
-              className="w-full"
+              className="w-full py-2 text-md"
             />
             {fieldState.error && (
               <p className="text-red-500 text-sm mt-1">
